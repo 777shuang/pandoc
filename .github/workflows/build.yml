@@ -18,3 +18,12 @@ jobs:
       - run: sudo apt update
 
       - run: sudo apt upgrade -y
+
+      - name: Install ghcup
+        run: curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
+
+      - run: cabal update
+
+      - run: cabal install pandoc-cli
+
+      - run: pandoc -v
