@@ -10,9 +10,6 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
 
-    container: 
-      image: 777shuang/md2pdf:nightly
-
     permissions:
       contents: write
 
@@ -21,6 +18,8 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+      - name: Pull Image
+        run: docker pull 777shuang/md2pdf:nightly
 
       - name: Get Changed Markdown Files
         id: changed-files
@@ -32,7 +31,7 @@ jobs:
       - name: Convert
         run: |
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-            mdtopdf $file
+            docker run -it --rm -v "`pwd`":/workdir 777shuang/mdtopdf mdtopdf $file
           done
      
       - name: Upload PDF
