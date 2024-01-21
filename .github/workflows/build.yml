@@ -31,7 +31,7 @@ jobs:
       - name: Convert
         run: |
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-            docker run -it --rm -v "`pwd`":/workdir 777shuang/mdtopdf mdtopdf $file
+            docker run -it --rm -t -v "`pwd`":/workdir 777shuang/mdtopdf mdtopdf $file
           done
      
       - name: Upload PDF
