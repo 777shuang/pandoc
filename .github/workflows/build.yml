@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container: 
-      image: 777shuang/md2pdf
+      image: 777shuang/md2pdf:nightly
 
     steps:
       - name: Checkout
