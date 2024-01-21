@@ -1,29 +1,18 @@
-name: Build
+name: CI
 
 on:
+  workflow_dispatch:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
-  workflow_dispatch:
 
 jobs:
-  build:
+  release:
+    name: Release
     runs-on: ubuntu-latest
 
+    container: 
+      image: 777shuang/md2pdf
+
     steps:
-      - uses: actions/checkout@v3
-
-      - run: sudo apt update
-
-      - run: sudo apt upgrade -y
-
-      - name: Install ghcup
-        run: curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
-
-      - run: cabal update
-
-      - run: cabal install pandoc-cli
-
-      - run: pandoc -v
+      - name: Checkout
+        uses: actions/checkout@v3
