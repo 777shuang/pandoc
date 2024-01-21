@@ -1,2 +1,2 @@
 # pandoc
-Markdownで書かれた文書をPandocを用いて自動でPDFに変換する
+Markdownで書かれた文書をPandocを用いて自動でPDFに変換します。
