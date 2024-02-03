@@ -37,7 +37,7 @@ jobs:
       - name: Compress Markdown
         run: cat ${{ matrix.value }}/*.md | sed -e s/、/，/g > ${{ matrix.value }}.md
       - name: Convert Markdown with Pandoc
-        uses: docker://pandoc/core:latest
+        uses: docker://pandoc/minimal:latest
         with:
           args: -sN -f markdown -t latex --template template.tex ${{ matrix.value }}.md -o ${{ matrix.value }}.tex
       - name: Compile LaTeX file
