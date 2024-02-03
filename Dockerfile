@@ -1,4 +1,3 @@
-FROM archlinux
+FROM ubuntu
 
-RUN pacman -Syuu --noconfirm && \
-    pacman -S pandoc texlive texlive-langcjk --noconfirm
+RUN apt update && apt upgrade -y && apt install -y texlive-lang-japanese texlive-latex-extra xdvik-ja
