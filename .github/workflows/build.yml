@@ -22,7 +22,7 @@ jobs:
 
       - name: Convert
         run: |
-          for dir in `find . -type d -name '.*' -prune -o -type d -print`; do
+          for dir in `find . -mindepth 1 -type d -name '.git*' -prune -o -type d -print`; do
             cat $dir/*.md > $dir/`basename $dir`.md
             sed -i s/、/，/g $dir/`basename $dir`.md
             pandoc -sN -f markdown -t latex --template template.tex $dir/`basename $dir`.md -o $dir/`basename $dir`.tex
