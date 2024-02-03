@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container: 
-      image: 777shuang/pandoc
+      image: 777shuang/pandoc:docker
 
     permissions:
       contents: write
@@ -19,23 +19,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Get Changed Markdown Files
-        id: changed-files
-        uses: tj-actions/changed-files@v40
-        with:
-          files: |
-            **/*.md
 
       - name: Convert
         run: |
-          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-            pandoc -sN -f markdown -t latex --template template.tex $file -o $file.tex
-            uplatex $file.tex
-            uplatex $file.tex
-            dvipdfmx $file.dvi
+          for dir in `find . -type d -name '.*' -prune -o -type d -print`; do
+            cat $dir/*.md > $dir/`basename $dir`.md
+            sed -i s/、/，/g $dir/`basename $dir`.md
+            pandoc -sN -f markdown -t latex --template template.tex $dir/`basename $dir`.md -o $dir/`basename $dir`.tex
+            uplatex $dir/`basename $dir`.tex
+            uplatex $dir/`basename $dir`.tex
+            dvipdfmx $dir/`basename $dir`.dvi
           done
 
       - name: Upload PDF
