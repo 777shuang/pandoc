@@ -2,4 +2,4 @@
 ## subsection
 ### subsubsection
 
-$x = \frac{-b \plusmn \sqrt{b^2 - 4ac}}{2a}$
+$sin\theta^2 + cos\theta^2 = 1$
