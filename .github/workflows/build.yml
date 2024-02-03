@@ -9,7 +9,7 @@ jobs:
   get_matrix:
     runs-on: ubuntu-latest
     outputs:
-      dirs: ${{ steps.find-tfstate-dirs.outputs.dirs }}
+      dirs: ${{ steps.matrix.outputs.dirs }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -17,7 +17,7 @@ jobs:
         run: |
           list=`find . -mindepth 1 -type d -name '.git*' -prune -o -type d -print | jq -R -s -c 'split("\n")[:-1]'`
           echo $list
-          echo "::set-output name=dirs::${list}"
+          echo "dirs=${list}" >> $GITHUB_OUTPUT
 
   build:
     needs: get_matrix
