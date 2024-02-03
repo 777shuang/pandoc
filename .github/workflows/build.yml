@@ -14,7 +14,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - id: matrix
-        run:
+        run: |
           list=`find . -mindepth 1 -type d -name '.git*' -prune -o -type d -print | jq -R -s -c 'split("\n")[:-1]'`
           echo $list
           echo "::set-output name=dirs::${list}"
