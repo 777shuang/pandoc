@@ -30,13 +30,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Setup TeX Live
+        run: |
+          sudo apt update
+          sudo apt install -y texlive-lang-japanese texlive-latex-extra xdvik-ja
       - name: Compress Markdown
         run: cat ${{ matrix.value }}/*.md | sed -e s/、/，/g > ${{ matrix.value }}.md
       - name: Convert Markdown with Pandoc
-        uses: docker://pandoc/core:2.9
+        uses: docker://pandoc/core:latest
         with:
-          args: -sN -f markdown -t latex --template template.tex ${{ matrix.value }}.md -o ${{ matrix.value }}.tex
-      - name: Compile LaTeX
-        uses: xu-cheng/latex-action@v2
-        with:
-          root_file: ${{ matrix.value }}.tex
+          args: sN -f markdown -t latex --template template.tex ${{ matrix.value }}.md -o ${{ matrix.value }}.pdf
+      - name: Compile LaTeX file
+        run: |
+          uplatex ${{ matrix.value }}.tex
+          uplatex ${{ matrix.value }}.tex
+          dvipdfmx ${{ matrix.value }}.dvi
