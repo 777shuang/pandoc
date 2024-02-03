@@ -9,14 +9,15 @@ jobs:
   get_matrix:
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.matrix.outputs.value }}
+      dirs: ${{ steps.find-tfstate-dirs.outputs.dirs }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - id: matrix
         run:
-          list=`find . -mindepth 1 -type d -name '.git*' -prune -o -type d -print  | tr '\n' ',' | sed -e 's/,$/\n/g' | sed -e "s/,/\",\"/g"`
-          echo "[\"${list}\"]"
+          list=`find . -mindepth 1 -type d -name '.git*' -prune -o -type d -print | jq -R -s -c 'split("\n")[:-1]'`
+          echo $list
+          echo "::set-output name=dirs::${list}"
 
   build:
     needs: get_matrix
@@ -24,7 +25,7 @@ jobs:
 
     strategy:
       matrix:
-        value: ${{ fromJson(needs.get_matrix.outputs.matrix) }}
+        value: ${{ fromJson(needs.get_matrix.outputs.dirs) }}
     
     steps:
       - name: Checkout
