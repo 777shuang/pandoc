@@ -28,7 +28,7 @@ jobs:
             pandoc -sN -f markdown -t latex --template template.tex $dir/`basename $dir`.md -o $dir/`basename $dir`.tex
             uplatex $dir/`basename $dir`.tex
             uplatex $dir/`basename $dir`.tex
-            dvipdfmx $dir/`basename $dir`.dvi
+            dvipdfmx `basename $dir`.dvi
           done
 
       - name: Upload PDF
@@ -36,4 +36,4 @@ jobs:
         with:
           name: PDF
           path: |
-            **.pdf
+            *.pdf
