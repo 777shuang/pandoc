@@ -39,7 +39,7 @@ jobs:
       - name: Convert Markdown with Pandoc
         uses: docker://pandoc/core:latest
         with:
-          args: -sN -f markdown -t latex --template template.tex ${{ matrix.value }}.md -o ${{ matrix.value }}.pdf
+          args: -sN -f markdown -t latex --template template.tex ${{ matrix.value }}.md -o ${{ matrix.value }}.tex
       - name: Compile LaTeX file
         run: |
           uplatex ${{ matrix.value }}.tex
