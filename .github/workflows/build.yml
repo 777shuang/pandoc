@@ -45,3 +45,9 @@ jobs:
           uplatex ${{ matrix.value }}.tex
           uplatex ${{ matrix.value }}.tex
           dvipdfmx ${{ matrix.value }}.dvi
+      - name: Upload PDF
+        uses: actions/upload-artifact@v3
+        with:
+          name: PDF
+          path: |
+            *.pdf
