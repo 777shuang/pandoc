@@ -13,7 +13,7 @@ def get_modified_time(path: str) -> datetime:
 dirs = {} # key: ディレクトリ名, value: {key: ファイル名, value: 変更時刻}
 
 for dir in os.listdir(os.getcwd()):
-    if dir != '.git' and dir != '.github' and os.path.isdir(dir): # ディレクトリかつ、「.git」「.github」でない
+    if dir != '.git' and dir != '.github' and dir != '__pycache__' and os.path.isdir(dir): # ディレクトリかつ、「.git」「.github」でない
         print('found: ' + dir)
         files = {} # key: ファイル名, value: 変更時刻
         for file in glob(os.path.join(dir, '*.md')): # Markdownファイルについてループ

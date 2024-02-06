@@ -7,3 +7,4 @@
 *.toc
 /*.md
 svg-inkscape
+__pycache__
