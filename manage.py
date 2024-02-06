@@ -4,7 +4,7 @@ from glob import glob
 from subprocess import run
 from time import sleep
 
-def rtn_modified_time(path: str) -> dt.datetime:
+def get_modified_time(path: str) -> dt.datetime:
     """ファイルの変更時刻を返す"""
     info = os.stat(path)
     modified_time = dt.datetime.fromtimestamp(info.st_mtime)
@@ -19,16 +19,16 @@ for dir in os.listdir(os.getcwd()):
         for file in glob(os.path.join(dir, "*.md")):
             if file != dir + '.md': # 出力ファイルは除外
                 print('  found: ' + file)
-                files[file] = rtn_modified_time(file)
+                files[file] = get_modified_time(file)
         dirs[dir] = files
 
 while True:
     for dir, files in dirs.items():
         do = False
         for file, modified_time in files.items():
-            if modified_time != rtn_modified_time(file):
+            if modified_time != get_modified_time(file):
                 do = True
-                files[file] = rtn_modified_time(file) # 更新時刻の更新
+                files[file] = get_modified_time(file) # 更新時刻の更新
                 print('modified: ' + file)
         
         if do:
