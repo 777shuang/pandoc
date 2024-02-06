@@ -38,7 +38,7 @@ while True:
             # 複数のmdファイルを一つにまとめる        
             wp = open(md, 'w', encoding='utf_8')
             for file in files:
-                fp = open(file, 'r', encoding="utf_8")
+                fp = open(file, 'r', encoding='utf_8')
                 wp.write(fp.read())
                 wp.write('\n')
                 fp.close()
