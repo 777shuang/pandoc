@@ -4,6 +4,8 @@ from glob import glob
 from sys import argv
 
 def build(dir: str):
+    """ディレクトリをビルド"""
+
     md = dir + '.md' # Markdown(結合済み)のファイル名
     tex = dir + '.tex' # LaTeXのファイル名
 
