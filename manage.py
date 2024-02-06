@@ -36,7 +36,7 @@ while True:
             tex = dir + '.tex'
 
             # 複数のmdファイルを一つにまとめる        
-            wp = open(md, 'w')
+            wp = open(md, 'w', encoding='utf_8')
             for file in files:
                 fp = open(file, 'r', encoding="utf_8")
                 wp.write(fp.read())
