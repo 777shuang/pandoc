@@ -1,13 +1,13 @@
 import os
-import datetime as dt
+from datetime import datetime
 from glob import glob
 from subprocess import run
 from time import sleep
 
-def get_modified_time(path: str) -> dt.datetime:
+def get_modified_time(path: str) -> datetime:
     """ファイルの変更時刻を返す"""
     info = os.stat(path)
-    modified_time = dt.datetime.fromtimestamp(info.st_mtime)
+    modified_time = datetime.fromtimestamp(info.st_mtime)
     return modified_time
 
 dirs = {} # key: ディレクトリ名, value: {key: ファイル名, value: 変更時刻}
