@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM pandoc/core
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt update && \
     apt upgrade -y && \
