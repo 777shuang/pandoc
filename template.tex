@@ -5,10 +5,15 @@ $if(colorlinks)$
 $endif$$if(dir)$$if(latex-dir-rtl)$
 \PassOptionsToPackage{RTLdocument}{bidi}
 $endif$$endif$%
-\documentclass[uplatex]{jsarticle}
+\documentclass[uplatex,dvipdfmx]{jsarticle}
 \usepackage{here}
 \usepackage[dvipdfmx]{hyperref}
 \usepackage{pxjahyper}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{svg}
+\makeatletter
+\def\fps@figure{h}
+\makeatother
 $if(beamer)$
 $if(background-image)$
 \usebackgroundtemplate{%
@@ -38,7 +43,7 @@ $if(linestretch)$
 $endif$
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
-\usepackage{fixltx2e} % provides \textsubscript
+%\usepackage{fixltx2e} % provides \textsubscript
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[$if(fontenc)$$fontenc$$else$T1$endif$]{fontenc}
   \usepackage[utf8]{inputenc}
@@ -183,9 +188,6 @@ $else$
 % Fix footnotes in tables (requires footnote package)
 \IfFileExists{footnote.sty}{\usepackage{footnote}\makesavenoteenv{longtable}}{}
 $endif$
-$endif$
-$if(graphics)$
-\usepackage[dvipdfmx]{graphicx}
 $endif$
 $if(beamer)$
 % Prevent slide breaks in the middle of a paragraph:
@@ -347,8 +349,14 @@ $include-before$
 
 $endfor$
 $if(toc)$
+$if(toc-title)$
+\renewcommand*\contentsname{$toc-title$}
+$endif$
 $if(beamer)$
-\begin{frame}
+\begin{frame}[allowframebreaks]
+$if(toc-title)$
+\frametitle{$toc-title$}
+$endif$
 \tableofcontents[hideallsubsections]
 \end{frame}
 $else$
