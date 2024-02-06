@@ -1,6 +1,8 @@
 import os
 import datetime as dt
 from glob import glob
+from subprocess import run
+from time import sleep
 
 def rtn_modified_time(path: str) -> dt.datetime:
     """ファイルの変更時刻を返す"""
@@ -30,8 +32,6 @@ while True:
                 print('modified: ' + file)
         
         if do:
-            from subprocess import run
-
             md = dir + '.md'
             tex = dir + '.tex'
 
@@ -57,5 +57,4 @@ while True:
             run(['uplatex', tex]) # LaTeX(2回目)
             run(['dvipdfmx', dir]) # dvi -> pdf
 
-    from time import sleep
     sleep(1)
