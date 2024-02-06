@@ -35,7 +35,7 @@ while True:
             md = dir + '.md' # Markdown(結合済み)のファイル名
             tex = dir + '.tex' # LaTeXのファイル名
 
-            # 複数のmdファイルを一つにまとめる        
+            # 複数のmdファイルを一つにまとめる
             wp = open(md, 'w', encoding='utf_8')
             for file in files:
                 fp = open(file, 'r', encoding='utf_8')
