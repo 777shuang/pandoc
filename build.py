@@ -1,6 +1,7 @@
 import os
 from subprocess import run
 from glob import glob
+from sys import argv
 
 def build(dir: str):
     md = dir + '.md' # Markdown(結合済み)のファイル名
@@ -29,3 +30,6 @@ def build(dir: str):
     run(['uplatex', '--shell-escape', tex]) # LaTeX(2回目)
     run(['dvipdfmx', dir]) # dvi -> pdf
     os.chdir('..')
+
+if __name__=="__main__":
+    build(argv[1])
