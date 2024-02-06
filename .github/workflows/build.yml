@@ -27,21 +27,12 @@ jobs:
       matrix:
         value: ${{ fromJson(needs.get_matrix.outputs.dirs) }}
     container: 
-      image: 777shuang/latex:nightly
+      image: 777shuang/pandoc:docker
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Compress Markdown
-        run: cat ${{ matrix.value }}/*.md | sed -e s/、/，/g > ${{ matrix.value }}.md
-      - name: Convert Markdown with Pandoc
-        uses: docker://pandoc/minimal:latest
-        with:
-          args: -sN -f markdown -t latex --template template.tex ${{ matrix.value }}.md -o ${{ matrix.value }}.tex
-      - name: Compile LaTeX file
-        run: |
-          uplatex ${{ matrix.value }}.tex
-          uplatex ${{ matrix.value }}.tex
-          dvipdfmx ${{ matrix.value }}.dvi
+      - name: Build
+        run: python3 build.py ${{ matrix.value }}
       - name: Upload PDF
         uses: actions/upload-artifact@v3
         with:
