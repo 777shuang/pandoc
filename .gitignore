@@ -4,6 +4,7 @@
 *.out
 *.pdf
 *.tex
+!/template.tex
 *.toc
 /*.md
 svg-inkscape
