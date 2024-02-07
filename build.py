@@ -28,9 +28,7 @@ def build(dir: str):
         md, '-o', os.path.join(dir, tex)
     ])
     os.chdir(dir)
-    run(['uplatex', '-shell-escape', tex]) # LaTeX(1回目)
-    run(['uplatex', '-shell-escape', tex]) # LaTeX(2回目)
-    run(['dvipdfmx', dir]) # dvi -> pdf
+    run(['lualatex', '-shell-escape', tex])
     os.chdir('..')
 
 if __name__=="__main__":
