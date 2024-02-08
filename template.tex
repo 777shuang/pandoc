@@ -364,6 +364,9 @@ $endfor$
 \let\LanguageShortHands\languageshorthands
 \def\languageshorthands#1{}
 $endif$
+$for(usepackage)$
+\usepackage{$usepackage$}
+$endfor$
 $for(header-includes)$
 $header-includes$
 $endfor$
