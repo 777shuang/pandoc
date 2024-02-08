@@ -37,14 +37,14 @@ while True:
 
             toc1 = dir + '.toc' # キャッシュ
             toc2 = os.path.join(dir, dir + '.toc') # 元のTOC
-
-            if not os.path.isfile(toc1): # キャッシュがない場合
-                build(dir)
-                copy(toc2, toc1)
-            else:
-                file1 = open(toc1, 'r')
-                file2 = open(toc2, 'r')
-                if file1.readlines() != file2.readlines(): # キャッシュと元のTOCが一致しなかったら
-                    build(dir) # 再実行
-                    copy(toc2, toc1) # キャッシュを再生成
+            if os.path.isfile(toc2):
+                if not os.path.isfile(toc1): # キャッシュがない場合
+                    build(dir)
+                    copy(toc2, toc1)
+                else:
+                    file1 = open(toc1, 'r')
+                    file2 = open(toc2, 'r')
+                    if file1.readlines() != file2.readlines(): # キャッシュと元のTOCが一致しなかったら
+                        build(dir) # 再実行
+                        copy(toc2, toc1) # キャッシュを再生成
     sleep(1)
