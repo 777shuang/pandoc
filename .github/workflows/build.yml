@@ -32,9 +32,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Build
-        run: |
-          python3 build.py ${{ matrix.value }}
-          python3 build.py ${{ matrix.value }}
+        run: python3 build.py ${{ matrix.value }}
       - name: Upload PDF
         uses: actions/upload-artifact@v3
         with:
