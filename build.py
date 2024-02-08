@@ -26,3 +26,4 @@ def build(dir: str):
 
 if __name__=="__main__":
     build(argv[1])
+    lualatex(argv[1])
