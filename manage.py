@@ -42,8 +42,8 @@ while True:
                     build(dir)
                     copy(toc2, toc1)
                 else:
-                    file1 = open(toc1, 'r')
-                    file2 = open(toc2, 'r')
+                    file1 = open(toc1, 'r', encoding='utf_8')
+                    file2 = open(toc2, 'r', encoding='utf_8')
                     if file1.readlines() != file2.readlines(): # キャッシュと元のTOCが一致しなかったら
                         build(dir) # 再実行
                         copy(toc2, toc1) # キャッシュを再生成
