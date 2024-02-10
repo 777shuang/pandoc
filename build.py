@@ -24,6 +24,6 @@ def build(dir: str):
     pandoc(dir)
     lualatex(dir)
 
-if __name__=="__main__":
+if __name__=="__main__" and os.path.isdir(argv[1]):
     build(argv[1])
     lualatex(argv[1])
