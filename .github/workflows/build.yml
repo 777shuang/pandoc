@@ -20,7 +20,7 @@ jobs:
         uses: tj-actions/changed-files@v40
       - id: matrix
         run: |
-          array={${{ steps.changed-files.outputs.all_changed_files }}}
+          array=(${{ steps.changed-files.outputs.all_changed_files }})
           for i in "${!array[@]}"; do
             while [[ "$array[$i]" =~ "/" ]]; do
               array[i]=`dirname $array[$i]`
