@@ -3,7 +3,7 @@ name: CI
 on:
   workflow_dispatch:
   push:
-    branches: [ "main" ]
+    branches: "*"
 
 jobs:
   get_matrix:
@@ -13,10 +13,25 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Get Changed Files
+        id: changed-files
+        uses: tj-actions/changed-files@v40
       - id: matrix
         run: |
-          list=`find . -mindepth 1 -type d -name '.git*' -prune -o -type d -print | sed -e s#./## | jq -R -s -c 'split("\n")[:-1]'`
-          echo $list
+          array={${{ steps.changed-files.outputs.all_changed_files }}}
+          for i in "${!array[@]}"; do
+            while [[ "$array[$i]" =~ "/" ]]; do
+              array[i]=`dirname $array[$i]`
+            done
+          done
+          dirs=()
+          i=0
+          while read -r x; do
+            dirs[i++]="$x"
+          done < <(printf '%s\n' "${array[@]}" | sort -u)
+          list=`echo ${dirs[@]} | jq -R -s -c 'split(" ")[:-1]'`
           echo "dirs=${list}" >> $GITHUB_OUTPUT
 
   build:
