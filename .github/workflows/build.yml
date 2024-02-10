@@ -31,7 +31,8 @@ jobs:
           while read -r x; do
             dirs[i++]="$x"
           done < <(printf '%s\n' "${array[@]}" | sort -u)
-          list=`echo ${dirs[@]} | jq -R -s -c 'split(" ")[:-1]'`
+          IFS=$'\n'
+          list=`echo ${dirs[@]} | jq -R -s -c 'split("\n")[:-1]'`
           echo $list
           echo "dirs=${list}" >> $GITHUB_OUTPUT
 
