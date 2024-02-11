@@ -19,6 +19,8 @@ Markdownで書かれた文書をPandocを用いて自動でPDFに変換します
 * Inkscape
 * Pandoc
 * TeX Live
+* Java
+* Graphviz
 
 上記のソフトウェアは全て、PATHが通っていないといけません。
 
