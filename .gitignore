@@ -11,3 +11,6 @@ svg-inkscape
 __pycache__
 *_svg-tex.eps
 *_svg-tex.eps_tex
+*.fdb_latexmk
+*.fls
+*.synctex.gz
