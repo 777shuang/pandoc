@@ -2,7 +2,6 @@ import os
 from datetime import datetime
 from glob import glob
 from time import sleep
-from shutil import copy
 from build import build
 
 def get_modified_time(path: str) -> datetime:

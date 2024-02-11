@@ -1,4 +1,3 @@
-from subprocess import run
 from sys import argv
 import os
 
