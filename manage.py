@@ -3,6 +3,17 @@ from datetime import datetime
 from glob import glob
 from time import sleep
 from build import build
+from requests import get
+
+plantuml = 'plantuml.jar'
+if not os.path.isfile(plantuml):
+    print(plantuml + ' is not found.')
+    print('Downloading...')
+    content = get('http://sourceforge.net/projects/plantuml/files/plantuml.jar/download').content
+    file = open('plantuml.jar', 'wb')
+    file.write(content)
+    file.close()
+    print('Done.')
 
 def get_modified_time(path: str) -> datetime:
     """ファイルの変更時刻を返す"""
