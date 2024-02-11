@@ -364,6 +364,10 @@ $endfor$
 \let\LanguageShortHands\languageshorthands
 \def\languageshorthands#1{}
 $endif$
+\usepackage{epstopdf}
+\epstopdfDeclareGraphicsRule{.pu}{pdf}{.pdf}{
+  python ../pu2pdf.py #1 \OutputFile
+}
 $for(usepackage)$
 \usepackage{$usepackage$}
 $endfor$
