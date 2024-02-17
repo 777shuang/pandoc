@@ -261,6 +261,7 @@ $endif$
 $endif$
 $if(graphics)$
 \usepackage{graphicx}
+\usepackage{here}
 \usepackage{epstopdf}
 \epstopdfDeclareGraphicsRule{.pu}{pdf}{.pdf}{python ../pu2pdf.py #1 \OutputFile}
 \makeatletter
@@ -271,9 +272,13 @@ $if(graphics)$
 % margins by default, and it is still possible to overwrite the defaults
 % using explicit options in \includegraphics[width, height, ...]{}
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
-% Set default figure placement to htbp
 \makeatletter
-\def\fps@figure{htbp}
+$if(figure)$
+\def\fps@figure{$figure$}
+$else$
+% Set default figure placement to H
+\def\fps@figure{H}
+$endif$
 \makeatother
 $endif$
 $if(svg)$
