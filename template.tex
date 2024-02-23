@@ -497,25 +497,35 @@ $for(include-before)$
 $include-before$
 
 $endfor$
-$if(toc)$
-$if(toc-title)$
-\renewcommand*\contentsname{$toc-title$}
-$endif$
-$if(beamer)$
-\begin{frame}[allowframebreaks]
-$if(toc-title)$
-  \frametitle{$toc-title$}
-$endif$
-  \tableofcontents[hideallsubsections]
-\end{frame}
+$if(tocown)$
+  \renewcommand*\contentsname{\empty}
+  \section{
+    $if(toc-title)$
+      $toc-title$
+    $else$
+      目次
+    $endif$
+  }
+  \tableofcontents
 $else$
-{
-$if(colorlinks)$
-\hypersetup{linkcolor=$if(toccolor)$$toccolor$$else$$endif$}
-$endif$
-\setcounter{tocdepth}{$toc-depth$}
-\tableofcontents
-}
+  $if(toc)$
+    $if(toc-title)$
+    \renewcommand*\contentsname{$toc-title$}
+    $endif$
+  $if(beamer)$
+    \begin{frame}[allowframebreaks]
+      $if(toc-title)$\frametitle{$toc-title$}$endif$
+      \tableofcontents[hideallsubsections]
+    \end{frame}
+  $else$
+    {
+      $if(colorlinks)$
+        \hypersetup{linkcolor=$if(toccolor)$$toccolor$$else$$endif$}
+      $endif$
+      \setcounter{tocdepth}{$toc-depth$}
+      \tableofcontents
+    }
+  $endif$
 $endif$
 $endif$
 $if(lof)$
