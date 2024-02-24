@@ -16,3 +16,4 @@ __pycache__
 *.synctex.gz
 /plantuml.jar
 .venv
+mkdocs.yml
