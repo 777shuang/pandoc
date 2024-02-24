@@ -1,0 +1,9 @@
+title: untitled
+documentclass: ltjsbook
+header-includes:
+- \setlength{\textwidth}{160truemm}
+- \setlength{\fullwidth}{\textwidth}
+- \setlength{\oddsidemargin}{30truemm}
+- \addtolength{\oddsidemargin}{-1truein}
+- \setlength{\evensidemargin}{20truemm}
+- \addtolength{\evensidemargin}{-1truein}

@@ -1,0 +1,39 @@
+site_name: untitled
+theme:
+  name: material
+  language: ja
+site_author: mkdocs
+plugins:
+  - with-pdf:
+      toc_title: 目次
+      toc_level: 3
+      back_cover: false
+      custom_template_path: ..
+      output_path: output.pdf
+      debug_html: false
+markdown_extensions:
+  - admonition
+  - abbr
+  - attr_list
+  - def_list
+  - footnotes
+  - meta
+  - md_in_html
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.tabbed
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
