@@ -50,6 +50,7 @@ def build(dir: str):
     settings = yaml.safe_load(file)
     file.close()
     os.makedirs(os.path.join(dir, 'output'), exist_ok=True)
+    command = ['pandoc', '-sN', '--filter', 'pandoc-crossref', '--lua-filter', 'fenced_div.lua', '-f', 'markdown', '-t', 'latex', '--template']
 
     root = os.getcwd()
 
@@ -74,7 +75,8 @@ def build(dir: str):
     elif settings['type'] == 'book':
         pandoc(dir, settings)
         
-        command = ['pandoc', '-sN', '--top-level-division=chapter', '-f', 'markdown', '-t', 'latex', '--template', os.path.join(root, 'template.tex')]
+        command += os.path.join(root, 'template.tex')
+        command += {'--top-level-division=chapter'}
         command += sorted(glob('*.md'))
         command += ['-o', 'output.tex']
         run(command)
@@ -86,7 +88,7 @@ def build(dir: str):
     elif settings['type'] == 'article':
         pandoc(dir, settings)
         
-        command = ['pandoc', '-sN', '-f', 'markdown', '-t', 'latex', '--template', os.path.join(root, 'template.tex')]
+        command += os.path.join(root, 'template.tex')
         command += sorted(glob('*.md'))
         command += ['-o', 'output.tex']
         run(command)
@@ -98,7 +100,7 @@ def build(dir: str):
     elif settings['type'] == 'report':
         pandoc(dir, settings)
         
-        command = ['pandoc', '-sN', '-f', 'markdown', '-t', 'latex', '--template', os.path.join(root, 'template.tex')]
+        command += os.path.join(root, 'template.tex')
         command += sorted(glob('*.md'))
         command += ['-o', 'output.tex']
         run(command)
