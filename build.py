@@ -6,7 +6,7 @@ from sys import argv
 def build(dir: str):
     """ディレクトリをビルド"""
 
-    command = ['pandoc', '-sN', '-f', 'markdown', '-t', 'latex', '--template', 'template.tex']
+    command = ['pandoc', '-sN', '--filter', 'pandoc-crossref', '-f', 'markdown', '-t', 'latex', '--template', 'template.tex']
     command += sorted(glob(os.path.join(dir, '*.md')))
     tex = dir + '.tex'
     command += ['-o', os.path.join(dir, tex)]
