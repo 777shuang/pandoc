@@ -11,6 +11,9 @@ plugins:
     custom_template_path: ..
     output_path: output.pdf
     debug_html: false
+- exclude:
+    glob:
+    - "**/output/*"
 markdown_extensions:
 - admonition
 - abbr
