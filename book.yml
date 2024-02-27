@@ -7,3 +7,11 @@ header-includes:
 - \addtolength{\oddsidemargin}{-1truein}
 - \setlength{\evensidemargin}{20truemm}
 - \addtolength{\evensidemargin}{-1truein}
+figureTitle: "図 "
+tableTitle: "表 "
+listingTitle: "コード "
+figPrefix: "図"
+eqnPrefix: "式"
+tblPrefix: "表"
+lstPrefix: "コード"
+secPrefix: "第"
