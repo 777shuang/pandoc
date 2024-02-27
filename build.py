@@ -5,7 +5,6 @@ from sys import argv
 from shutil import copy, move
 import codecs
 import yaml
-import pypandoc
 
 def pandoc(dir: str, settings):
     file = open(settings['type'] + '.yml')
