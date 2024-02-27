@@ -5,6 +5,7 @@ from sys import argv
 from shutil import copy, move
 import codecs
 import yaml
+import pypandoc
 
 def pandoc(dir: str, settings):
     file = open(settings['type'] + '.yml')
@@ -75,7 +76,6 @@ def build(dir: str):
         for i in range(len(settings['files'])):
             files.append(os.path.join('output', settings['files'][i]))
             move(settings['files'][i], files[i])
-            input("pandoc")
             run(command + [files[i], '-o', settings['files'][i]])
         os.chdir('..')
 
@@ -83,7 +83,6 @@ def build(dir: str):
 
         os.chdir(dir)
         for i in range(len(settings['files'])):
-            input('Restore')
             move(files[i], settings['files'][i])
         os.chdir('..')
 
