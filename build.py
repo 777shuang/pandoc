@@ -51,14 +51,7 @@ def build(dir: str):
     file.close()
     os.makedirs(os.path.join(dir, 'output'), exist_ok=True)
     root = os.getcwd()
-    command = [
-        'pandoc', '-sN',
-        '--filter', 'pandoc-crossref',
-        '--lua-filter', os.path.join(root, 'fenced_div.lua'),
-        '-f', 'markdown',
-        '-t', 'latex',
-        '--template', os.path.join(root, 'template.tex')
-    ]
+    command = ['pandoc', '-sN', '--filter', 'pandoc-crossref', '--lua-filter', os.path.join(root, 'fenced_div.lua')]
 
     if settings['type'] == 'site':
         file = open('template.yml')
@@ -76,41 +69,59 @@ def build(dir: str):
         with codecs.open('mkdocs.yml', 'w', 'utf-8') as file:
             yaml.dump(mkdocs, file, encoding='utf-8', allow_unicode=True)
 
+        command += ['-f', 'markdown', '-t', 'markdown-inline_notes']
+        os.chdir(dir)
+        files = []
+        for i in range(len(settings['files'])):
+            files.append(os.path.join('output', settings['files'][i]))
+            move(settings['files'][i], files[i])
+            input("pandoc")
+            run(command + [files[i], '-o', settings['files'][i]])
+        os.chdir('..')
+
         run(['mkdocs', 'build'])
 
-    elif settings['type'] == 'book':
-        pandoc(dir, settings)
-        
-        command += sorted(glob('*.md'))
-        command += ['-o', 'output.tex']
-        command += {'--top-level-division=chapter'}
-        run(command)
-
-        os.chdir('..')
-        latexmk()
+        os.chdir(dir)
+        for i in range(len(settings['files'])):
+            input('Restore')
+            move(files[i], settings['files'][i])
         os.chdir('..')
 
-    elif settings['type'] == 'article':
-        pandoc(dir, settings)
-        
-        command += sorted(glob('*.md'))
-        command += ['-o', 'output.tex']
-        run(command)
+    else:
+        command += ['-f', 'markdown', '-t', 'latex', '--template', os.path.join(root, 'template.tex')]
+        if settings['type'] == 'book':
+            pandoc(dir, settings)
+            
+            command += sorted(glob('*.md'))
+            command += ['-o', 'output.tex']
+            command += {'--top-level-division=chapter'}
+            run(command)
 
-        os.chdir('..')
-        latexmk()
-        os.chdir('..')
-        
-    elif settings['type'] == 'report':
-        pandoc(dir, settings)
-        
-        command += sorted(glob('*.md'))
-        command += ['-o', 'output.tex']
-        run(command)
+            os.chdir('..')
+            latexmk()
+            os.chdir('..')
 
-        os.chdir('..')
-        latexmk()
-        os.chdir('..')
+        elif settings['type'] == 'article':
+            pandoc(dir, settings)
+            
+            command += sorted(glob('*.md'))
+            command += ['-o', 'output.tex']
+            run(command)
+
+            os.chdir('..')
+            latexmk()
+            os.chdir('..')
+            
+        elif settings['type'] == 'report':
+            pandoc(dir, settings)
+            
+            command += sorted(glob('*.md'))
+            command += ['-o', 'output.tex']
+            run(command)
+
+            os.chdir('..')
+            latexmk()
+            os.chdir('..')
 
 if __name__=="__main__":
     if len(argv) == 1:
