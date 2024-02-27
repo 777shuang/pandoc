@@ -13,7 +13,7 @@ plugins:
     debug_html: false
 - exclude:
     glob:
-    - "**/output/*"
+      - "output/*"
 markdown_extensions:
 - admonition
 - abbr
