@@ -4,9 +4,11 @@
 *.out
 *.pdf
 *.tex
+*.yml
+*.html
+!/template.html
 !/template.tex
 *.toc
-/*.md
 svg-inkscape
 __pycache__
 *_svg-tex.eps
