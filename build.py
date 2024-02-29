@@ -7,6 +7,7 @@ from sys import argv
 def build(dir: str):
     """ディレクトリをビルド"""
 
+    markdown = sorted(glob(os.path.join(dir, '*.md')))
     command = [
         'pandoc', '-sN',
         '--filter', 'pandoc-crossref',
@@ -15,7 +16,7 @@ def build(dir: str):
         '--toc', '--mathjax',
         '--template', 'template.html'
     ]
-    command += sorted(glob(os.path.join(dir, '*.md')))
+    command += markdown
     command += ['-o', os.path.join(dir, dir + '.html')]
     run(command)
 
@@ -28,18 +29,12 @@ def build(dir: str):
         '--template', 'template.tex'
     ]
 
-    metadata = os.path.join(dir, dir + '.yml')
-    run([
-        'pandoc',
-        '--lua-filter', 'extract_yaml.lua',
-        '-t', 'markdown',
-        '--standalone',
-        glob(os.path.join(dir, '*.md'))[0], '-o', metadata
-    ])
-    with open(metadata) as file:
-        metadata = file.read()
-    top_level_division = re.search(r'top-level-division:\s+.+\s', metadata).group()
-    if top_level_division != '':
+    file = open(markdown[0])
+    top_level_division = re.search(r'---(.|\s)+---', file.read()).group()
+    file.close()
+    top_level_division = re.search(r'\stop-level-division:\s+.+\s', top_level_division).group()
+    if top_level_division is not None:
+        top_level_division = top_level_division.strip()
         top_level_division = top_level_division.lstrip('top-level-division:')
         top_level_division = top_level_division.strip()
         command += ['--top-level-division=' + top_level_division]
