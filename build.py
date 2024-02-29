@@ -1,4 +1,5 @@
 import os
+import re
 from subprocess import run
 from glob import glob
 from sys import argv
@@ -24,9 +25,25 @@ def build(dir: str):
         '--filter', 'pandoc-crossref',
         '--lua-filter', 'fenced_div_latex.lua',
         '-f', 'markdown-auto_identifiers', '-t', 'latex',
-        '--top-level-division=chapter',
         '--template', 'template.tex'
     ]
+
+    metadata = os.path.join(dir, dir + '.yml')
+    run([
+        'pandoc',
+        '--lua-filter', 'extract_yaml.lua',
+        '-t', 'markdown',
+        '--standalone',
+        glob(os.path.join(dir, '*.md'))[0], '-o', metadata
+    ])
+    with open(metadata) as file:
+        metadata = file.read()
+    top_level_division = re.search(r'top-level-division:\s+.+\s', metadata).group()
+    if top_level_division != '':
+        top_level_division = top_level_division.lstrip('top-level-division:')
+        top_level_division = top_level_division.strip()
+        command += ['--top-level-division=' + top_level_division]
+
     command += sorted(glob(os.path.join(dir, '*.md')))
     tex = dir + '.tex'
     command += ['-o', os.path.join(dir, tex)]
