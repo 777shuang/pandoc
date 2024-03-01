@@ -32,9 +32,9 @@ def build(dir: str):
     file = open(markdown[0])
     top_level_division = re.search(r'---(.|\s)+---', file.read()).group()
     file.close()
-    top_level_division = re.search(r'\stop-level-division:\s+.+\s', top_level_division).group()
+    top_level_division = re.search(r'\stop-level-division:\s+.+\s', top_level_division)
     if top_level_division is not None:
-        top_level_division = top_level_division.strip()
+        top_level_division = top_level_division.group().strip()
         top_level_division = top_level_division.lstrip('top-level-division:')
         top_level_division = top_level_division.strip()
         command += ['--top-level-division=' + top_level_division]
