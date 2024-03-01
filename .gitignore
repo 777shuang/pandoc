@@ -4,7 +4,6 @@
 *.out
 *.pdf
 *.tex
-*.yml
 *.html
 !/template.html
 !/template.tex
