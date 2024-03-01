@@ -11,7 +11,7 @@ def build(dir: str):
     command = [
         'pandoc', '-sN',
         '--filter', 'pandoc-crossref',
-        '--lua-filter', 'fenced_div_html.lua',
+        '--lua-filter', 'fenced_div.lua',
         '-f', 'markdown', '-t', 'html',
         '--toc', '--mathjax',
         '--template', 'template.html'
@@ -24,7 +24,7 @@ def build(dir: str):
         'pandoc',
         '-sN',
         '--filter', 'pandoc-crossref',
-        '--lua-filter', 'fenced_div_latex.lua',
+        '--lua-filter', 'fenced_div.lua',
         '-f', 'markdown-auto_identifiers', '-t', 'latex',
         '--template', 'template.tex'
     ]
