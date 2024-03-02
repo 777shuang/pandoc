@@ -8,17 +8,6 @@ def build(dir: str):
     """ディレクトリをビルド"""
 
     markdown = sorted(glob(os.path.join(dir, '*.md')))
-    command = [
-        'pandoc', '-sN',
-        '--filter', 'pandoc-crossref',
-        '--lua-filter', 'fenced_div.lua',
-        '-f', 'markdown', '-t', 'html',
-        '--toc', '--mathjax',
-        '--template', 'template.html'
-    ]
-    command += markdown
-    command += ['-o', os.path.join(dir, dir + '.html')]
-    run(command)
 
     command = [
         'pandoc',
@@ -46,6 +35,19 @@ def build(dir: str):
     os.chdir(dir)
     run(['latexmk', '-r', os.path.join('..', '.latexmkrc'), tex])
     os.chdir('..')
+
+    command = [
+        'pandoc', '-sN',
+        '--filter', 'pandoc-crossref',
+        '--lua-filter', 'fenced_div.lua',
+        '--lua-filter', 'plantuml.lua',
+        '-f', 'markdown', '-t', 'html',
+        '--toc', '--mathjax',
+        '--template', 'template.html'
+    ]
+    command += markdown
+    command += ['-o', os.path.join(dir, dir + '.html')]
+    run(command)
 
 if __name__=="__main__" and os.path.isdir(argv[1]):
     build(argv[1])
