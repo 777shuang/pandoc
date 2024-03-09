@@ -17,7 +17,7 @@
     },
     {
       "name": "PDF",
-      "customArguments": "--pdf-engine=lualatex --filter pandoc-crossref"
+      "customArguments": "--pdf-engine=lualatex --filter pandoc-crossref --template template.tex"
     },
     {
       "name": "Word (.docx)"
@@ -54,5 +54,9 @@
   "openExportedFile": true,
   "env": {},
   "showExportProgressBar": true,
-  "lastEditName": "PDF"
+  "lastEditName": "PDF",
+  "lastExportDirectory": {
+    "linux": "/home/shuang"
+  },
+  "lastExportType": "PDF"
 }
