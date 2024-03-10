@@ -18,7 +18,7 @@
     },
     {
       "name": "PDF",
-      "customArguments": "--pdf-engine=lualatex --filter pandoc-crossref --lua-filter fenced_div.lua --template template.tex"
+      "customArguments": "--pdf-engine=lualatex --filter pandoc-crossref --lua-filter \"${attachmentFolderPath}/fenced_div.lua\" --template \"${attachmentFolderPath}/template.tex\""
     },
     {
       "name": "Word (.docx)"
@@ -55,7 +55,7 @@
   "openExportedFile": true,
   "env": {},
   "showExportProgressBar": true,
-  "lastEditName": "Html",
+  "lastEditName": "PDF",
   "lastExportDirectory": {
     "linux": "/home/shuang"
   },
