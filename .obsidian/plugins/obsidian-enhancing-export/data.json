@@ -7,7 +7,8 @@
       "name": "Markdown (Hugo)"
     },
     {
-      "name": "Html"
+      "name": "Html",
+      "customArguments": "--mathjax=\"https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg-full.js\" --toc"
     },
     {
       "name": "TextBundle"
@@ -17,7 +18,7 @@
     },
     {
       "name": "PDF",
-      "customArguments": "--pdf-engine=lualatex --filter pandoc-crossref --template template.tex"
+      "customArguments": "--pdf-engine=lualatex --filter pandoc-crossref --lua-filter fenced_div.lua --template template.tex"
     },
     {
       "name": "Word (.docx)"
@@ -54,7 +55,7 @@
   "openExportedFile": true,
   "env": {},
   "showExportProgressBar": true,
-  "lastEditName": "PDF",
+  "lastEditName": "Html",
   "lastExportDirectory": {
     "linux": "/home/shuang"
   },

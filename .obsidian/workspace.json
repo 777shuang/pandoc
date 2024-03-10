@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "しおり/0.表紙.md",
+                "file": "しおり/1.集合体制.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "しおり/0.表紙.md",
+                "file": "しおり/1.集合体制.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "しおり/0.表紙.md",
+                "file": "しおり/1.集合体制.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "しおり/0.表紙.md"
+                "file": "しおり/1.集合体制.md"
               }
             }
           }
@@ -148,12 +148,12 @@
   },
   "active": "2f20ca256e3f1591",
   "lastOpenFiles": [
+    "しおり/0.表紙.md",
     "README.md",
     "test/テスト.md",
     "test/テスト2.md",
     "test",
     "しおり.md",
-    "しおり/0.表紙.md",
     "無題のファイル.canvas",
     "しおり/1台目.drawio.svg",
     "しおり/タカラトミー-pu-converted-to.pdf",
