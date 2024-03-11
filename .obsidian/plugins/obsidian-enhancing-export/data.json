@@ -18,7 +18,7 @@
     },
     {
       "name": "PDF",
-      "customArguments": "--pdf-engine=lualatex --filter pandoc-crossref --lua-filter \"${attachmentFolderPath}/fenced_div.lua\" --template \"${attachmentFolderPath}/template.tex\""
+      "customArguments": "-sN --pdf-engine=lualatex --filter pandoc-crossref --lua-filter \"${attachmentFolderPath}/fenced_div.lua\" --template \"${attachmentFolderPath}/template.tex\""
     },
     {
       "name": "Word (.docx)"
