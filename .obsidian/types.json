@@ -1,0 +1,12 @@
+{
+  "types": {
+    "aliases": "aliases",
+    "cssclasses": "multitext",
+    "tags": "tags",
+    "tocown": "checkbox",
+    "abstract": "multitext",
+    "title": "multitext",
+    "subtitle": "multitext",
+    "documentclass": "multitext"
+  }
+}

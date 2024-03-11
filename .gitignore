@@ -16,3 +16,4 @@ __pycache__
 *.fls
 *.synctex.gz
 /plantuml.jar
+.obsidian/workspace.json
