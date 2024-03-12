@@ -5,8 +5,9 @@
     "tags": "tags",
     "tocown": "checkbox",
     "abstract": "multitext",
-    "title": "multitext",
+    "title": "text",
     "subtitle": "multitext",
-    "documentclass": "multitext"
+    "documentclass": "text",
+    "author": "multitext"
   }
 }
