@@ -33,7 +33,8 @@
       "name": "Epub"
     },
     {
-      "name": "Latex"
+      "name": "Latex",
+      "customArguments": "-sN --pdf-engine=lualatex --filter pandoc-crossref --lua-filter \"${attachmentFolderPath}/.filters/filters.lua\" --template \"${attachmentFolderPath}/template.tex\""
     },
     {
       "name": "Media Wiki"
@@ -53,11 +54,16 @@
   ],
   "defaultExportDirectoryMode": "Auto",
   "openExportedFile": true,
-  "env": {},
+  "env": {
+    "linux": {
+      "LUA_PATH": "${attachmentFolderPath}/.filters/?.lua;${luaDir}/?.lua;;",
+      "PLANTUML": "${attachmentFolderPath}/plantuml.jar"
+    }
+  },
   "showExportProgressBar": true,
   "lastEditName": "PDF",
   "lastExportDirectory": {
     "linux": "/home/shuang"
   },
-  "lastExportType": "PDF"
+  "lastExportType": "Html"
 }
