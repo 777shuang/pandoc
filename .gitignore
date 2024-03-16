@@ -17,3 +17,4 @@ __pycache__
 *.synctex.gz
 /plantuml.jar
 .obsidian/workspace.json
+.obsidian/appearance.json
