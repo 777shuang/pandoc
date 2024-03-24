@@ -2,7 +2,10 @@ FROM pandoc/core:latest-ubuntu
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt update && \
     apt upgrade -y && \
-    apt autoremove -y && \
+    apt autoremove -y 
+
+RUN apt update && \
+    apt install -y software-properties-common && \
     add-apt-repository -y ppa:inkscape.dev/stable && \
     apt update && \
     apt install -y inkscape && \
