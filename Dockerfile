@@ -14,10 +14,13 @@ RUN apt update && \
 
 RUN apt update && \
     apt install -y perl wget && \
-    wget http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unix.tar.gz && \
-    tar -xvf install-tl-unix.tar.gz && \
+    wget http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz && \
+    tar -xvf install-tl-unx.tar.gz && \
     cd install-tl-2* && \
-    ./install-tl -no-gui && \
+    echo "selected_scheme scheme-full" > ./texlive.profile && \
+    echo "option_doc 0" >> ./texlive.profile && \
+    echo "option_src 0" >> ./texlive.profile && \
+    ./install-tl -no-gui -profile ./texlive.profile && \
     /usr/local/texlive/????/bin/*/tlmgr path add && \
     cd .. && \
     rm -rf install-tl-2* && \
@@ -26,8 +29,6 @@ RUN apt update && \
     rm -rf /var/lib/apt/lists/*
 
 RUN apt update && \
-    apt install -y wget default-jre && \
-    wget -O plantuml.jar http://sourceforge.net/projects/plantuml/files/plantuml.jar/download && \
-    apt remove -y wget && \
+    apt install -y default-jre graphviz && \
     apt clean -y && \
     rm -rf /var/lib/apt/lists/*
