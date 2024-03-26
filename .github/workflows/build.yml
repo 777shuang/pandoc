@@ -44,7 +44,7 @@ jobs:
           HASH_IMAGE=${{ hashFiles('./docker/pandoc/Dockerfile') }}
           VARIANT=$(date -u '+%Y%b')${HASH_IMAGE:0:6}
           TAG="${{ env.NAME_IMAGE }}:${VARIANT}"
-          NAME_TAR="${{ env.NAME_IMAGE }}.${VARIANT}.tar"
+          NAME_TAR="${VARIANT}.tar"
           echo "TAG=${TAG}" >> $GITHUB_OUTPUT
           echo "PATH_TAR=${{ env.PATH_CACHE }}/${NAME_TAR}" >> $GITHUB_OUTPUT
 
