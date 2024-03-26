@@ -10,25 +10,7 @@ env:
   NAME_IMAGE: 777shuang/pandoc
 
 jobs:
-  get_matrix:
-    runs-on: ubuntu-latest
-    outputs:
-      dirs: ${{ steps.matrix.outputs.dirs }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Get Changed Files
-        id: changed-files
-        uses: tj-actions/changed-files@v40
-      - id: matrix
-        run: |
-          list=`find . -mindepth 1 -type d -name '.git*' -prune -o -type d -print | sed -e s#./## | jq -R -s -c 'split("\n")[:-1]'`
-          echo $list
-          echo "dirs=${list}" >> $GITHUB_OUTPUT
-
-  docker:
+  build:
     runs-on: ubuntu-latest
     outputs:
       TAG: ${{ steps.imagetag.outputs.TAG }}
@@ -55,6 +37,10 @@ jobs:
           path: ${{ env.PATH_CACHE }}
           key: ${{ steps.imagetag.outputs.TAG }}
 
+      - name: Load Docker image if exists
+        if: steps.cache.outputs.cache-hit == 'true'
+        run: docker load --input ${{ steps.imagetag.outputs.PATH_TAR }}
+
       - name: Build Docker image and save
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
@@ -62,22 +48,3 @@ jobs:
           docker pull ${{ env.NAME_IMAGE }}
           docker tag ${{ env.NAME_IMAGE }} ${{ steps.imagetag.outputs.TAG }}
           docker save --output ${{ steps.imagetag.outputs.PATH_TAR }} ${{ steps.imagetag.outputs.TAG }}
-
-  build:
-    needs: [get_matrix, docker]
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        value: ${{ fromJson(needs.get_matrix.outputs.dirs) }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Load Docker
-        run: docker load --input ${{ needs.docker.outputs.PATH_TAR }}
-      - name: Upload PDF
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{ matrix.value }}
-          path: |
-            ${{ matrix.value }}/${{ matrix.value }}.pdf
