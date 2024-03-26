@@ -11,7 +11,6 @@ def build(dir: str):
     markdown = sorted(glob(os.path.join(dir, '*.md')))
 
     basedir = os.path.dirname(__file__)
-    os.environ['LUA_PATH'] = os.path.join(basedir, '.filters', '?.lua') + ';;'
 
     command = [
         'pandoc',
@@ -49,6 +48,9 @@ if __name__=="__main__" and os.path.isdir(argv[1]):
         file.write(content)
         file.close()
         print('Done.')
+
+    os.environ['LUA_PATH'] = os.path.join(os.getcwd(), '.filters', '?.lua') + ';;'
+    os.environ['PLANTUML'] = os.path.join(os.getcwd(), plantuml)
 
     for dir in argv[1:]:
         build(dir)
