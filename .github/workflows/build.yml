@@ -39,6 +39,7 @@ jobs:
         run: git clone --depth 1 https://github.com/777shuang/docker
       
       - name: Create image tag
+        id: imagetag
         run: |
           HASH_IMAGE=${{ hashFiles('./docker/pandoc/Dockerfile') }}
           VARIANT=$(date -u '+%Y%b')${HASH_IMAGE:0:6}
