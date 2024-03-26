@@ -34,7 +34,7 @@ jobs:
       - name: Build Docker image and save
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
-          cd .docker
+          cd ./.docker
           docker build -t ${{ steps.imagetag.outputs.TAG }} .
-          cd ..
+          cd $OLDPWD
           docker save ${{ steps.imagetag.outputs.TAG }} -o ${{ steps.imagetag.outputs.PATH_TAR }}
