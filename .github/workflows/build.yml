@@ -6,16 +6,11 @@ on:
     branches: "*"
 
 env:
-  PATH_CACHE: /tmp/docker-img-arch
   NAME_IMAGE: 777shuang/pandoc
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    outputs:
-      TAG: ${{ steps.imagetag.outputs.TAG }}
-      PATH_TAR: ${{ steps.imagetag.outputs.PATH_TAR }}
-
     steps:
       - name: Clone Docker Repositoty
         run: git clone --depth 1 https://github.com/777shuang/docker
@@ -26,15 +21,14 @@ jobs:
           HASH_IMAGE=${{ hashFiles('./docker/pandoc/Dockerfile') }}
           VARIANT=$(date -u '+%Y%b')${HASH_IMAGE:0:6}
           TAG="${{ env.NAME_IMAGE }}:${VARIANT}"
-          NAME_TAR="${VARIANT}.tar"
           echo "TAG=${TAG}" >> $GITHUB_OUTPUT
-          echo "PATH_TAR=${{ env.PATH_CACHE }}/${NAME_TAR}" >> $GITHUB_OUTPUT
+          echo "PATH_TAR=${VARIANT}.tar" >> $GITHUB_OUTPUT
 
       - name: Enable cache
         id: cache
         uses: actions/cache@v2
         with:
-          path: ${{ env.PATH_CACHE }}
+          path: ${{ steps.imagetag.outputs.PATH_TAR }}
           key: ${{ steps.imagetag.outputs.TAG }}
 
       - name: Load Docker image if exists
@@ -44,7 +38,5 @@ jobs:
       - name: Build Docker image and save
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
-          mkdir -p ${{ env.PATH_CACHE }}
           docker pull ${{ env.NAME_IMAGE }}
-          docker tag ${{ env.NAME_IMAGE }} ${{ steps.imagetag.outputs.TAG }}
-          docker save --output ${{ steps.imagetag.outputs.PATH_TAR }} ${{ steps.imagetag.outputs.TAG }}
+          docker save ${{ env.NAME_IMAGE }} -o ${{ steps.imagetag.outputs.PATH_TAR }}
