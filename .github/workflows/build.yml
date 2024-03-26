@@ -5,6 +5,10 @@ on:
   push:
     branches: "*"
 
+env:
+  PATH_CACHE: /tmp/docker-img-arch
+  NAME_IMAGE: 777shuang/pandoc
+
 jobs:
   get_matrix:
     runs-on: ubuntu-latest
@@ -20,36 +24,60 @@ jobs:
         uses: tj-actions/changed-files@v40
       - id: matrix
         run: |
-          array=(${{ steps.changed-files.outputs.all_changed_files }})
-          for i in "${!array[@]}"; do
-            while [[ "$array[$i]" =~ "/" ]]; do
-              array[i]=`dirname $array[$i]`
-            done
-          done
-          dirs=()
-          i=0
-          while read -r x; do
-            dirs[i++]="$x"
-          done < <(printf '%s\n' "${array[@]}" | sort -u)
-          IFS=$'\n'
-          list=`echo ${dirs[@]} | jq -R -s -c 'split("\n")[:-1]'`
+          list=`find . -mindepth 1 -type d -name '.git*' -prune -o -type d -print | sed -e s#./## | jq -R -s -c 'split("\n")[:-1]'`
           echo $list
           echo "dirs=${list}" >> $GITHUB_OUTPUT
 
+  docker:
+    runs-on: ubuntu-latest
+    outputs:
+      TAG: ${{ steps.imagetag.outputs.TAG }}
+      PATH_TAR: ${{ steps.imagetag.outputs.PATH_TAR }}
+
+    steps:
+      - name: Clone Docker Repositoty
+        run: git clone --depth 1 https://github.com/777shuang/docker
+      
+      - name: Create image tag
+        run: |
+          HASH_IMAGE=${{ hashFiles('./docker/pandoc/Dockerfile') }}
+          VARIANT=$(date -u '+%Y%b')${HASH_IMAGE:0:6}
+          TAG="${{ env.NAME_IMAGE }}:${VARIANT}"
+          NAME_TAR="${{ env.NAME_IMAGE }}.${VARIANT}.tar"
+          echo "TAG=${TAG}" >> $GITHUB_OUTPUT
+          echo "PATH_TAR=${{ env.PATH_CACHE }}/${NAME_TAR}" >> $GITHUB_OUTPUT
+
+      - name: Enable cache
+        id: cache
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.PATH_CACHE }}
+          key: ${{ steps.imagetag.outputs.TAG }}
+
+      - name: Load Docker image if exists
+        if: steps.cache.outputs.cache-hit == 'true'
+        run: docker load --input ${{ steps.imagetag.outputs.PATH_TAR }}
+
+      - name: Build Docker image and save
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p ${{ env.PATH_CACHE }}
+          docker pull ${{ env.NAME_IMAGE }}
+          docker tag ${{ env.NAME_IMAGE }} ${{ steps.imagetag.outputs.TAG }}
+          docker save --output ${{ steps.imagetag.outputs.PATH_TAR }} ${{ steps.imagetag.outputs.TAG }}
+
   build:
-    needs: get_matrix
+    needs: [get_matrix, docker]
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
         value: ${{ fromJson(needs.get_matrix.outputs.dirs) }}
-    container: 
-      image: 777shuang/pandoc:docker
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Build
-        run: python3 build.py ${{ matrix.value }}
+      - name: Load Docker
+        run: docker load --input ${{ needs.docker.outputs.PATH_TAR }}
       - name: Upload PDF
         uses: actions/upload-artifact@v3
         with:
