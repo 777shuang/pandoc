@@ -44,8 +44,10 @@ jobs:
           cd $OLDPWD
           docker save ${{ steps.imagetag.outputs.TAG }} -o ${{ steps.imagetag.outputs.PATH_TAR }}
       
+      - name: Create Docker container
+        run: docker create --name container ${{ steps.imagetag.outputs.TAG }}
+      
       - name: Compile documents
         run: |
           DIRS=`find . -mindepth 1 -type d -name '.git*' -prune -o -type d -print | sed -e s#./##`
-          docker create --name container ${{ steps.imagetag.outputs.TAG }}
           docker exec -it container python build.py ${DIRS}
