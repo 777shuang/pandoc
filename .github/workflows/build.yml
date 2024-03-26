@@ -9,6 +9,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
       - name: Clone Docker Repositoty
         run: git clone --depth 1 https://github.com/777shuang/docker
       
