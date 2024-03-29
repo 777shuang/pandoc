@@ -50,4 +50,4 @@ jobs:
       - name: Compile documents
         run: |
           DIRS=`find . -mindepth 1 -type d -name '.git*' -prune -o -type d -print | sed -e s#./##`
-          docker exec -it container python build.py ${DIRS}
+          docker run -it container build.py ${DIRS}
