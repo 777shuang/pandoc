@@ -6,7 +6,7 @@ on:
     branches: "*"
 
 jobs:
-  build:
+  pandoc:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
