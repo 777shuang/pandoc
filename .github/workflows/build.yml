@@ -11,43 +11,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Pull Docker image
+        run: docker pull 777shuang/pandoc-python
+
+      - name: Convert documents
+        run: |
+          DIRS=`find . -mindepth 1 -maxdepth 1 -type d -name '.git*' -prune -o -type d -print | sed -e s#./##`
+          docker run -v "`pwd`:/workdir" 777shuang/pandoc-python ${DIRS}
+      
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
         with:
-          submodules: true
-
-      - name: Clone Docker Repositoty
-        run: git clone --depth 1 https://github.com/777shuang/docker
-      
-      - name: Create image tag
-        id: imagetag
-        run: |
-          HASH_IMAGE=${{ hashFiles('./docker/pandoc/Dockerfile') }}
-          VARIANT=$(date -u '+%Y%b')${HASH_IMAGE:0:6}
-          echo "TAG=build:${VARIANT}" >> $GITHUB_OUTPUT
-          echo "PATH_TAR=${VARIANT}.tar" >> $GITHUB_OUTPUT
-
-      - name: Enable cache
-        id: cache
-        uses: actions/cache@v4
-        with:
-          path: ${{ steps.imagetag.outputs.PATH_TAR }}
-          key: ${{ steps.imagetag.outputs.TAG }}
-
-      - name: Load Docker image if exists
-        if: steps.cache.outputs.cache-hit == 'true'
-        run: docker load --input ${{ steps.imagetag.outputs.PATH_TAR }}
-
-      - name: Build Docker image and save
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: |
-          cd ./.docker
-          docker build -t ${{ steps.imagetag.outputs.TAG }} .
-          cd $OLDPWD
-          docker save ${{ steps.imagetag.outputs.TAG }} -o ${{ steps.imagetag.outputs.PATH_TAR }}
-      
-      - name: Create Docker container
-        run: docker create --name container:latest ${{ steps.imagetag.outputs.TAG }}
-      
-      - name: Compile documents
-        run: |
-          DIRS=`find . -mindepth 1 -type d -name '.git*' -prune -o -type d -print | sed -e s#./##`
-          docker run container:latest build.py ${DIRS}
+          name: "LaTeX"
+          path: */*.tex
