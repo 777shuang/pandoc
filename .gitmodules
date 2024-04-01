@@ -1,3 +1,0 @@
-[submodule ".filters"]
-	path = .filters
-	url = https://github.com/777shuang/pandoc-filters
