@@ -40,11 +40,10 @@ jobs:
 
       - name: Compile documents
         run: |
+          cp /root/.latexmkrc .latexmkrc
           DIRS=`find . -mindepth 1 -maxdepth 1 -type d -name '.git*' -prune -o -type d -print | sed -e s#./##`
           for DIR in ${DIRS}; do
-            cd ${DIR}
-            latexmk ${DIR}.tex
-            cd ..
+            latexmk -cd ${DIR}/${DIR}.tex
             mv ${DIR}/${DIR}.pdf ${DIR}.pdf
           done
 
