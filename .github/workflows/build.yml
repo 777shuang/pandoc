@@ -24,3 +24,30 @@ jobs:
         with:
           name: "LaTeX"
           path: "*/*.tex"
+
+  latex:
+    runs-on: ubuntu-latest
+    container:
+      image: 777shuang/latex
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+
+      - name: Compile documents
+        run: |
+          DIRS=`find . -mindepth 1 -maxdepth 1 -type d -name '.git*' -prune -o -type d -print | sed -e s#./##`
+          for DIR in ${DIRS}; do
+            cd ${DIR}
+            latexmk ${DIR}.tex
+            cd ..
+            mv ${DIR}/${DIR}.pdf ${DIR}.pdf
+          done
+      
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: "PDF"
+          path: "*.pdf"
