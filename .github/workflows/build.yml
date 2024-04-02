@@ -35,6 +35,8 @@ jobs:
 
       - name: Download artifact
         uses: actions/download-artifact@v4
+        with:
+          name: LaTeX
 
       - name: Compile documents
         run: |
@@ -45,7 +47,7 @@ jobs:
             cd ..
             mv ${DIR}/${DIR}.pdf ${DIR}.pdf
           done
-      
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
