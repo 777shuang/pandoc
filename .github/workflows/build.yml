@@ -8,18 +8,17 @@ on:
 jobs:
   pandoc:
     runs-on: ubuntu-latest
+    container:
+      image: 777shuang/pandoc-python
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Pull Docker image
-        run: docker pull 777shuang/pandoc-python
-
       - name: Convert documents
         run: |
           DIRS=`find . -mindepth 1 -maxdepth 1 -type d -name '.git*' -prune -o -type d -print | sed -e s#./##`
-          docker run -v "`pwd`:/workdir" 777shuang/pandoc-python ${DIRS}
-      
+          python3 ${PYTHON_SCRIPT} ${DIRS}
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
