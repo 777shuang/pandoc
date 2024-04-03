@@ -5,7 +5,7 @@ on:
   push:
     branches: "*"
 
-jobs:
+jobs:  
   pandoc:
     runs-on: ubuntu-latest
     container:
@@ -25,10 +25,26 @@ jobs:
           name: "LaTeX"
           path: "*/*.tex"
 
+  get_matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      dirs: ${{ steps.matrix.outputs.dirs }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Get matrix
+        id: matrix
+        run: echo "dirs=`find . -mindepth 1 -maxdepth 1 -type d -name '.git*' -prune -o -type d -print | sed -e s#./## | jq -R -s -c 'split("\n")[:-1]'`" >> $GITHUB_OUTPUT
+
   latex:
+    needs: get_matrix
     runs-on: ubuntu-latest
     container:
       image: 777shuang/latex
+    strategy:
+      matrix:
+        value: ${{ fromJson(needs.get_matrix.outputs.dirs) }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -41,14 +57,11 @@ jobs:
       - name: Compile documents
         run: |
           cp /root/.latexmkrc .latexmkrc
-          DIRS=`find . -mindepth 1 -maxdepth 1 -type d -name '.git*' -prune -o -type d -print | sed -e s#./##`
-          for DIR in ${DIRS}; do
-            latexmk -cd ${DIR}/${DIR}.tex
-            mv ${DIR}/${DIR}.pdf ${DIR}.pdf
-          done
+          latexmk -cd ${{ matrix.value }}/${{ matrix.value }}.tex
+          mv ${{ matrix.value }}/${{ matrix.value }}.pdf ${{ matrix.value }}.pdf
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: "PDF"
-          path: "*.pdf"
+          path: ${{ matrix.value }}.pdf
