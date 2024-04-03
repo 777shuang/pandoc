@@ -32,10 +32,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Get matrix
-        id: matrix
-        run: echo "dirs=`find . -mindepth 1 -maxdepth 1 -type d -name '.git*' -prune -o -type d -print | sed -e s#./## | jq -R -s -c 'split("\n")[:-1]'`" >> $GITHUB_OUTPUT
+      - id: matrix
+        run: |
+          list=`find . -mindepth 1 -maxdepth 1 -type d -name '.git*' -prune -o -type d -print | sed -e s#./## | jq -R -s -c 'split("\n")[:-1]'`
+          echo $list
+          echo "dirs=${list}" >> $GITHUB_OUTPUT
 
   latex:
     needs: get_matrix
