@@ -44,6 +44,7 @@ jobs:
     container:
       image: 777shuang/latex
     strategy:
+      fail-fast: false
       matrix:
         value: ${{ fromJson(needs.get_matrix.outputs.dirs) }}
     steps:
