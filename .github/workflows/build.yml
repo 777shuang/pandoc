@@ -59,8 +59,8 @@ jobs:
       - name: Compile documents
         run: |
           cp /root/.latexmkrc .latexmkrc
-          latexmk -cd ${{ matrix.value }}/${{ matrix.value }}.tex
-          mv ${{ matrix.value }}/${{ matrix.value }}.pdf ${{ matrix.value }}.pdf
+          latexmk -cd "${{ matrix.value }}/${{ matrix.value }}.tex"
+          mv "${{ matrix.value }}/${{ matrix.value }}.pdf" "${{ matrix.value }}.pdf"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
