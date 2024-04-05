@@ -23,7 +23,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: "LaTeX"
-          path: "*/*.tex"
+          path: "*"
 
   get_matrix:
     runs-on: ubuntu-latest
@@ -48,9 +48,6 @@ jobs:
       matrix:
         value: ${{ fromJson(needs.get_matrix.outputs.dirs) }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
