@@ -65,5 +65,5 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ hashFiles(format('{0}.pdf'), matrix.value) }}
+          name: ${{ hashFiles(format('{0}.pdf', matrix.value)) }}
           path: "${{ matrix.value }}.pdf"
